@@ -1,0 +1,20 @@
+:root {
+  --color-fondo: #f8fafc;
+  --color-superficie: #ffffff;
+  --color-superficie-secundaria: #f1f5f9;
+  --color-texto: #172033;
+  --color-texto-secundario: #64748b;
+  --color-primario: #4f46e5;
+  --color-primario-hover: #4338ca;
+  --color-primario-suave: #eef2ff;
+  --color-exito: #16a34a;
+  --color-advertencia: #d97706;
+  --color-peligro: #dc2626;
+  --color-borde: #e2e8f0;
+  --radio-base: 0.75rem;
+  --radio-pequeno: 0.5rem;
+  --espaciado-base: 1rem;
+  --sombra-panel: 0 8px 24px rgb(15 23 42 / 8%);
+  --sombra-suave: 0 1px 3px rgb(15 23 42 / 6%);
+  --transicion-base: 150ms ease;
+}
