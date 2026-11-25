@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    env_file:
+      - ./proyecto-calendario-de-eventos/.env
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        export POSTGRES_DB="$${DB_NAME:-gestion_calendario}"
+        export POSTGRES_USER="$${DB_USERNAME:-calendario_app}"
+        export POSTGRES_PASSWORD="$${DB_PASSWORD:-calendario_local_dev_2026}"
+        exec docker-entrypoint.sh postgres
+    volumes:
+      - datos_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${DB_USERNAME:-calendario_app}\" -d \"$${DB_NAME:-gestion_calendario}\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - red_calendario
+
+  backend:
+    build: ./proyecto-calendario-de-eventos
+    restart: unless-stopped
+    env_file:
+      - ./proyecto-calendario-de-eventos/.env
+    environment:
+      DB_HOST: db
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - red_calendario
+
+  frontend:
+    build: ./frontend-calendario-de-eventos
+    restart: unless-stopped
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - red_calendario
+
+volumes:
+  datos_postgres:
+
+networks:
+  red_calendario:
+    driver: bridge
