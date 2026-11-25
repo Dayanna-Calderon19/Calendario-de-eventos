@@ -1,0 +1,55 @@
+server:
+  port: ${APP_PORT:8080}
+
+spring:
+  application:
+    name: gestion-calendario
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:gestion_calendario}
+    username: ${DB_USERNAME:calendario_app}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+  jackson:
+    time-zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+app:
+  zona-horaria: ${APP_TIME_ZONE:America/Lima}
+  jwt:
+    secreto: ${JWT_SECRET}
+    expiracion-acceso-ms: ${JWT_ACCESS_EXPIRATION_MS:900000}
+    expiracion-refresh-ms: ${JWT_REFRESH_EXPIRATION_MS:604800000}
+  cors:
+    origenes-permitidos: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
+  cookie:
+    segura: ${APP_COOKIE_SECURE:false}
+    mismo-sitio: ${APP_COOKIE_SAME_SITE:Lax}
+  recuperacion:
+    expiracion-ms: ${APP_RECOVERY_EXPIRATION_MS:1800000}

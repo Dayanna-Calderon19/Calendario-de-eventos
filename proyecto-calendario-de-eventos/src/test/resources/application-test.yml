@@ -1,0 +1,27 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: jdbc:h2:mem:gestion_calendario_test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    enabled: false
+
+app:
+  zona-horaria: America/Lima
+  jwt:
+    secreto: clave_secreta_de_pruebas_locales_con_longitud_suficiente_para_hmac_sha256_2026
+    expiracion-acceso-ms: 900000
+    expiracion-refresh-ms: 604800000
+  cors:
+    origenes-permitidos: http://localhost:4200
+  cookie:
+    segura: false
+    mismo-sitio: Lax
+  recuperacion:
+    expiracion-ms: 1800000
